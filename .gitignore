@@ -1,6 +1,6 @@
 *.swp
 *.tmp
 *.log
-
+.npmrc
 coverage/
 node_modules/

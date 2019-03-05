@@ -19,7 +19,7 @@
     "local",
     "cross-domain",
     "http-proxy",
-    "proxy",
+    "proxy"
   ],
   "main": "./lib/cors-anywhere.js",
   "files": [
