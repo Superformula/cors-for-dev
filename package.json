@@ -1,23 +1,25 @@
 {
-  "name": "cors-anywhere",
+  "name": "cors-for-dev",
   "version": "0.4.1",
-  "description": "CORS Anywhere is a reverse proxy which adds CORS headers to the proxied request. Request URL is taken from the path",
+  "description": "CORS for devs is a reverse proxy which adds CORS headers to the proxied request. Request URL is taken from the path",
   "license": "MIT",
-  "author": "Rob Wu <rob@robwu.nl>",
+  "author": "Jan St, forked from Rob Wu <rob@robwu.nl>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Rob--W/cors-anywhere.git"
+    "url": "https://github.com/JanST123/cors-for-dev.git"
   },
   "bugs": {
-    "url": "https://github.com/Rob--W/cors-anywhere/issues/",
-    "email": "rob@robwu.nl"
+    "url": "https://github.com/JanST123/cors-for-dev.git/issues/",
+    "email": "info@jan-stuhlmann.de"
   },
   "keywords": [
     "cors",
+    "localhost",
+    "development",
+    "local",
     "cross-domain",
     "http-proxy",
     "proxy",
-    "heroku"
   ],
   "main": "./lib/cors-anywhere.js",
   "files": [
