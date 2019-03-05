@@ -1,4 +1,7 @@
 
+[![npm version](https://badge.fury.io/js/cors-for-dev.svg)](https://badge.fury.io/js/cors-for-dev)
+
+
 **CORS for dev** is a NodeJS proxy which adds CORS headers to the proxied request meant to be used **only** during development because production use would not be secure.
 The proxy is a fork from Rob W.'s **CORS anywhere** that can also be on production, but this fork allows some insecureness with the "allowCredentials" flag.
 
