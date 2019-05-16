@@ -39,11 +39,11 @@ function stopServer(done) {
 }
 
 describe('Basic functionality', function() {
-  before(function() {
+  beforeEach(function() {
     cors_anywhere = createServer();
     cors_anywhere_port = cors_anywhere.listen(0).address().port;
   });
-  after(stopServer);
+  afterEach(stopServer);
 
   it('GET /', function(done) {
     request(cors_anywhere)
@@ -51,6 +51,35 @@ describe('Basic functionality', function() {
       .type('text/plain')
       .expect('Access-Control-Allow-Origin', '*')
       .expect(200, helpText, done);
+  });
+
+  it('if useWildcard is false, and Origin req header is empty, sends no Allow-Origin header', function(done) {
+    stopServer(function() {
+      cors_anywhere = createServer({
+        useWildcard: false,
+      });
+      cors_anywhere_port = cors_anywhere.listen(0).address().port;
+      request(cors_anywhere)
+        .get('/')
+        .type('text/plain')
+        .expectNoHeader('access-control-allow-origin')
+        .expect(200, helpText, done);
+    });
+  });
+
+  it('if useWildcard is false, and Origin req header is present, Allow-Origin is set to request origin', function(done) {
+    stopServer(function() {
+      cors_anywhere = createServer({
+        useWildcard: false,
+      });
+      cors_anywhere_port = cors_anywhere.listen(0).address().port;
+      request(cors_anywhere)
+        .get('/')
+        .set('Origin', 'https://origin.localhost')
+        .type('text/plain')
+        .expect('Access-Control-Allow-Origin', 'https://origin.localhost')
+        .expect(200, helpText, done);
+    });
   });
 
   it('GET /iscorsneeded', function(done) {
