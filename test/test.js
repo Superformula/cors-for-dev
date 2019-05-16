@@ -298,13 +298,59 @@ describe('Basic functionality', function() {
       }, done);
   });
 
-  it('Ignore cookies', function(done) {
+  it('If Access-Control-Allow-Credentials is missing, ignores cookies', function(done) {
     request(cors_anywhere)
       .get('/example.com/setcookie')
       .expect('Access-Control-Allow-Origin', '*')
+      .expectNoHeader('Access-Control-Allow-Credentials')
       .expect('Set-Cookie3', 'z')
       .expectNoHeader('set-cookie')
       .expectNoHeader('set-cookie2', done);
+  });
+
+  it('If Access-Control-Allow-Credentials is present, and allowCredentials option is false, ignores cookies', function(done) {
+    request(cors_anywhere)
+      .get('/example.com/setcookie')
+      .expect('Access-Control-Allow-Origin', '*')
+      .expectNoHeader('Access-Control-Allow-Credentials')
+      .expect('Set-Cookie3', 'z')
+      .expectNoHeader('set-cookie')
+      .expectNoHeader('set-cookie2', done);
+  });
+
+  it('If Access-Control-Allow-Credentials is present, and allowCredentials option is true, passes the cookies', function(done) {
+    stopServer(function() {
+      cors_anywhere = createServer({
+        allowCredentials: true,
+      });
+      cors_anywhere_port = cors_anywhere.listen(0).address().port;
+      request(cors_anywhere)
+        .get('/example.com/setcookie')
+        .expect('Access-Control-Allow-Origin', '*')
+        .expect('Access-Control-Allow-Credentials', 'true')
+        .expect('Set-Cookie', 'x1=x1; Path=/api,x2=x2')
+        .expect('Set-Cookie2', 'y')
+        .expect('Set-Cookie3', 'z', done);
+    });
+  });
+
+  it('If Access-Control-Allow-Credentials is present, and allowCredentials option is true, and mapCookie option is given, passes the cookies mapped with mapCookie function', function(done) {
+    stopServer(function() {
+      cors_anywhere = createServer({
+        allowCredentials: true,
+        mapCookie: function mapCookie(cookie) {
+          return 'mapped-' + cookie;
+        },
+      });
+      cors_anywhere_port = cors_anywhere.listen(0).address().port;
+      request(cors_anywhere)
+        .get('/example.com/setcookie')
+        .expect('Access-Control-Allow-Origin', '*')
+        .expect('Access-Control-Allow-Credentials', 'true')
+        .expect('Set-Cookie', 'mapped-x1=x1; Path=/api,mapped-x2=x2')
+        .expect('Set-Cookie2', 'mapped-y')
+        .expect('Set-Cookie3', 'z', done);
+    });
   });
 });
 

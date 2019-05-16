@@ -64,7 +64,7 @@ nock('http://example.com')
 
   .get('/setcookie')
   .reply(200, '', {
-    'Set-Cookie': 'x',
+    'Set-Cookie': ['x1=x1; Path=/api', 'x2=x2'],
     'Set-Cookie2': 'y',
     'Set-Cookie3': 'z', // This is not a special cookie setting header.
   })
