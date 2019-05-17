@@ -107,6 +107,7 @@ proxy requests. The following options are supported:
 * function `mapCookie` - Allows to map each cookie string, i.e. from `"name=1; Secure"` to `"name=1"` (useful when you want to get rid of Secure flag or change the cookie's `path`)
 * number `corsMaxAge` - If set, an Access-Control-Max-Age request header with this value (in seconds) will be added.  
   Example: `600` - Allow CORS preflight request to be cached by the browser for 10 minutes.
+* string `path` - If you're running your proxy server on a path, like `http://localhost:3000/proxy/https://google.com`, then you can supply it here like `path: 'proxy/'`, so when we'll be getting the request URL, it will be subtracted from the beginning of the URL (`https://google.com` instead of `proxy/https://google.com`).
 * string `helpFile` - Set the help file (shown at the homepage).  
   Example: `"myCustomHelpText.txt"`
 

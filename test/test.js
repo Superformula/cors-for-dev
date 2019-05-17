@@ -165,6 +165,20 @@ describe('Basic functionality', function() {
       .expect(200, 'Response from example.com', done);
   });
 
+  it('if path option is set, it is removed from the proxied request url', function(done) {
+    stopServer(function() {
+      cors_anywhere = createServer({
+        path: 'proxy/',
+      });
+      cors_anywhere_port = cors_anywhere.listen(0).address().port;
+      request(cors_anywhere)
+        .get('/proxy/http://example.com')
+        .expect('Access-Control-Allow-Origin', '*')
+        .expect('x-request-url', 'http://example.com/')
+        .expect(200, 'Response from example.com', done);
+    });
+  });
+
   it('POST plain text', function(done) {
     request(cors_anywhere)
       .post('/example.com/echopost')
