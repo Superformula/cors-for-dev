@@ -105,6 +105,7 @@ proxy requests. The following options are supported:
   Example: `{"x-powered-by": "CORS Anywhere"}`
 * boolean `allowCredentials` - Allows proxying of credentials by enabling cookies and setting x-access-control-allow-credentials to 'true'
 * function `mapCookie` - Allows to map each cookie string, i.e. from `"name=1; Secure"` to `"name=1"` (useful when you want to get rid of Secure flag or change the cookie's `path`)
+* boolean `removeChunkTransferEncoding` - Some servers (i.e. lambda servers) might have problems with sending chunked responses. If set to true, we will unchunk such response and serve it as if it hasn't been sent as chunks at all.
 * number `corsMaxAge` - If set, an Access-Control-Max-Age request header with this value (in seconds) will be added.  
   Example: `600` - Allow CORS preflight request to be cached by the browser for 10 minutes.
 * string `path` - If you're running your proxy server on a path, like `http://localhost:3000/proxy/https://google.com`, then you can supply it here like `path: 'proxy/'`, so when we'll be getting the request URL, it will be subtracted from the beginning of the URL (`https://google.com` instead of `proxy/https://google.com`).
