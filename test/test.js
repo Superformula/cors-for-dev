@@ -630,10 +630,43 @@ describe('originBlacklist', function() {
   });
 });
 
-describe('originWhitelist', function() {
+describe('originWhitelist as string', function() {
   before(function() {
     cors_anywhere = createServer({
       originWhitelist: ['https://permitted.origin.test'],
+    });
+    cors_anywhere_port = cors_anywhere.listen(0).address().port;
+  });
+  after(stopServer);
+
+  it('GET /example.com with permitted origin', function(done) {
+    request(cors_anywhere)
+      .get('/example.com/')
+      .set('Origin', 'https://permitted.origin.test')
+      .expect('Access-Control-Allow-Origin', '*')
+      .expect(200, done);
+  });
+
+  it('GET /example.com without permitted origin', function(done) {
+    request(cors_anywhere)
+      .get('/example.com/')
+      .set('Origin', 'http://permitted.origin.test') // Note: different scheme!
+      .expect('Access-Control-Allow-Origin', '*')
+      .expect(403, done);
+  });
+
+  it('GET /example.com without origin', function(done) {
+    request(cors_anywhere)
+      .get('/example.com/')
+      .expect('Access-Control-Allow-Origin', '*')
+      .expect(403, done);
+  });
+});
+
+describe('originWhitelist as RegExp', function() {
+  before(function() {
+    cors_anywhere = createServer({
+      originWhitelist: [/^https:\/\/permitted.origin.test$/],
     });
     cors_anywhere_port = cors_anywhere.listen(0).address().port;
   });
