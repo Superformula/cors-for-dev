@@ -659,7 +659,7 @@ describe('originWhitelist as string', function() {
     request(cors_anywhere)
       .get('/example.com/')
       .expect('Access-Control-Allow-Origin', '*')
-      .expect(403, done);
+      .expect(200, done);
   });
 });
 
@@ -692,7 +692,7 @@ describe('originWhitelist as RegExp', function() {
     request(cors_anywhere)
       .get('/example.com/')
       .expect('Access-Control-Allow-Origin', '*')
-      .expect(403, done);
+      .expect(200, done);
   });
 });
 
